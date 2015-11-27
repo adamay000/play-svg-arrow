@@ -18,7 +18,21 @@ class AnimateOnPath {
     this.__letterSpacing = params.letterSpacing || 4;
     this.__textLength = this.__textSize + this.__letterSpacing;
 
+    this.__loop = params.loop || false;
+    this.__loopedCount = 0;
+    this.__callback = params.callback || function(){};
+
     this.createMessage();
+
+  }
+
+  destroy() {
+
+    this.__texts.forEach(function(text, idx) {
+
+      svg.world.removeChild(text);
+
+    });
 
   }
 
@@ -47,6 +61,9 @@ class AnimateOnPath {
     this.__texts.forEach(function(text, idx) {
 
       var textAtLength = currentLength - idx * self.__textLength;
+      for (let i = 0; i < self.__loopedCount && textAtLength < 0; i++) {
+        textAtLength = textAtLength + self.__totalLength;
+      }
 
       if (textAtLength <= 0) {
 
@@ -72,7 +89,7 @@ class AnimateOnPath {
 
     if (this.__isRunning || this.__progress >= 1) {
 
-      return;
+      return false;
 
     }
 
@@ -81,6 +98,8 @@ class AnimateOnPath {
 
     this.animate();
 
+    return true;
+
   }
 
   restart() {
@@ -88,17 +107,21 @@ class AnimateOnPath {
     this.stop();
     this.start();
 
+    return true;
+
   }
 
   pause() {
 
     if (!this.__isRunning) {
 
-      return;
+      return false;
 
     }
 
     this.__isRunning = false;
+
+    return true;
 
   }
 
@@ -106,7 +129,10 @@ class AnimateOnPath {
 
     this.__isRunning = false;
     this.__progress = 0;
+    this.__loopedCount = 0;
     this.render();
+
+    return true;
 
   }
 
@@ -128,8 +154,17 @@ class AnimateOnPath {
 
     if (this.__progress === 1) {
 
-      this.pause();
-      return;
+      if (!this.__loop) {
+
+
+        this.pause();
+        this.__callback();
+        return;
+
+      }
+
+      this.__loopedCount++;
+      this.setProgress(0);
 
     }
 
@@ -141,6 +176,18 @@ class AnimateOnPath {
   setProgress(progress) {
 
     this.__progress = progress;
+
+  }
+
+  setLoop(loop) {
+
+    this.__loop = loop;
+
+  }
+
+  setDuration(duration) {
+
+    this.__duration = duration;
 
   }
 

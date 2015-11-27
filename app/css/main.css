@@ -21,3 +21,14 @@ svg {
     color: #eaeaea; }
     .button a:hover {
       color: #ffffff; }
+    .button a.off {
+      text-decoration: line-through; }
+  .button input {
+    width: 400px;
+    border: 0;
+    border-bottom: 1px #eaeaea solid;
+    padding: 10px 20px;
+    background: #bebebe;
+    text-align: center;
+    outline: 0;
+    color: #eaeaea; }

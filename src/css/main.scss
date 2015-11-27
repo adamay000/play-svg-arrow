@@ -31,5 +31,24 @@ svg {
     &:hover {
       color: #ffffff;
     }
+
+    &.off {
+      text-decoration: line-through;
+    }
+  }
+
+  input {
+    width: 400px;
+
+    border: 0;
+    border-bottom: 1px #eaeaea solid;
+
+    padding: 10px 20px;
+
+    background: #bebebe;
+
+    text-align: center;
+    outline: 0;
+    color: #eaeaea;
   }
 }

@@ -5,7 +5,13 @@ class Line {
   constructor() {
 
     this.__points = [];
-    this.defaultCurveLevel = 50;
+    this.defaultCurveLevel = 30;
+
+  }
+
+  clear() {
+
+    this.__points.length = 0;
 
   }
 
@@ -39,9 +45,9 @@ class Line {
 
   }
 
-  getCurvedPath(curveLevel) {
+  getCurvedPath(_curveLevel) {
 
-    var curveLevel = curveLevel || this.defaultCurveLevel;
+    var curveLevel = _curveLevel || this.defaultCurveLevel;
 
     if (this.__points.length < 3) {
 
